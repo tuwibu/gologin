@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "@faker-js/faker": "7.6.0",
+    "adm-zip": "^0.5.10",
+    "aws-sdk": "^2.1411.0",
+    "axios": "^1.4.0",
+    "colorette": "^2.0.20",
+    "dayjs": "^1.11.9",
+    "ip": "^1.1.8",
+    "puppeteer-core": "^20.8.0",
+    "rimraf": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "20.3.3"
+  },
+  "name": "gologin",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
