@@ -8,6 +8,6 @@ export const CHROME_VERSION = '112.0.5615.49';
 export const R2 = {
   endpoint: 'https://4cdea141f001c2c195e4b3c2cf43a74b.r2.cloudflarestorage.com',
   accessKeyId: '69ad83af11ab54d7cfcc2116a15ab1a1',
-  secretAccessKey: 'a31f9a53392baff5f26a88282b3b3d7304233f7f3475eb24839251619faf668a',
+  secretAccessKey: 'b908426d09b6bdf73399c78c76ba334770196719ff939ab8529b8b93651450e0',
   bucket: 'chrome'
 }
