@@ -64,7 +64,6 @@ class Gologin {
       Logger.info(`Creating profile...`);
       // skip download s3 and sync (test)
       this.generatePreferences();
-      await this.generateFonts();
     } catch(ex) {
       throw ex;
     }
@@ -113,28 +112,6 @@ class Gologin {
       fs.writeFileSync(path.resolve(this.profilePath, 'Default', 'Preferences'), JSON.stringify(jsonObj, null, 2));
     } catch(ex) {
       throw ex;
-    }
-  }
-  private async generateFonts() {
-    Logger.info(`Generating fonts...`);
-    const fonts = this.profile.fingerprint.fonts;
-    const fontsPath = path.join(this.profilePath, 'fonts');
-    if (!fs.existsSync(fontsPath)) fs.mkdirSync(fontsPath, { recursive: true });
-    for(const font of fonts) {
-      const find = fontsCollection.find(item => item.name == font);
-      if (find) {
-        if (find.fileNames) {
-          for(const file of find.fileNames) {
-            try {
-              const src = path.join(PATH_ROOT, 'fonts', file);
-              const dest = path.join(fontsPath, file);
-              fs.copyFileSync(src, dest);
-            } catch(ex) {
-              Logger.error(`Error copy font ${file}`);
-            }
-          }
-        }
-      }
     }
   }
 }

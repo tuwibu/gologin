@@ -2,7 +2,6 @@
   "dependencies": {
     "@faker-js/faker": "7.6.0",
     "adm-zip": "^0.5.10",
-    "aws-sdk": "^2.1411.0",
     "axios": "^1.4.0",
     "colorette": "^2.0.20",
     "dayjs": "^1.11.9",
@@ -11,13 +10,18 @@
     "rimraf": "^5.0.1"
   },
   "devDependencies": {
-    "@types/node": "20.3.3"
+    "@types/adm-zip": "^0.5.5",
+    "@types/node": "20.3.3",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.3"
   },
   "name": "gologin",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format": "prettier --write .",
+    "build": "tsc",
+    "start": "node dist/main.js"
   },
   "author": "",
   "license": "ISC",
