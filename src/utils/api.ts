@@ -1,17 +1,19 @@
-import { GOLOGIN_TOKEN, WORKER } from '../configs';
-import axios, { AxiosResponse } from 'axios';
-import { FingerprintState, ProfileState } from '../typings/api';
-import { faker } from '@faker-js/faker';
-import { generateStr, randomDouble } from '.';
+import { GOLOGIN_TOKEN, WORKER } from '../configs'
+import axios, { AxiosResponse } from 'axios'
+import { FingerprintState, ProfileState } from '../typings/api'
+import { faker } from '@faker-js/faker'
+import { generateStr, randomDouble } from '.'
 
-export const fetchProfile = async(kernel: 'android' | 'windows' | 'linux' | 'mac' | 'macm1' = 'windows'): Promise<ProfileState> => {
+export const fetchProfile = async (
+  kernel: 'android' | 'windows' | 'linux' | 'mac' | 'macm1' = 'windows'
+): Promise<ProfileState> => {
   try {
     const response: AxiosResponse<FingerprintState> = await axios({
       method: 'GET',
       url: `${WORKER}/gologin`,
       params: {
         token: GOLOGIN_TOKEN,
-        kernel,
+        kernel
       }
     })
     return {
@@ -28,7 +30,7 @@ export const fetchProfile = async(kernel: 'android' | 'windows' | 'linux' | 'mac
       },
       fingerprint: response.data
     }
-  } catch(ex) {
-    throw ex;
+  } catch (ex) {
+    throw ex
   }
 }
