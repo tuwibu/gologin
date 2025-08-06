@@ -42,3 +42,19 @@ export interface FingerprintState {
   os: 'android' | 'windows' | 'linux' | 'mac' | 'macm1'
   fonts: string[]
 }
+
+export type InfoIpState = {
+  address: string,
+  username?: string,
+  password?: string,
+  protocol: 'http' | 'https' | 'socks5',
+  status: string,
+  country: string,
+  region: string,
+  city: string,
+  zip: string,
+  lat: number,
+  lon: number,
+  timezone: string,
+  query: string
+}

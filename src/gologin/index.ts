@@ -4,7 +4,7 @@ import * as rimraf from 'rimraf'
 import puppeteer from 'puppeteer-core'
 import { Browser } from 'puppeteer-core'
 import { PATH_ROOT, CHROME_VERSION } from '../configs'
-import { ProfileState } from '../typings/api'
+import { InfoIpState, ProfileState } from '../typings/api'
 import Logger from '../helpers/logger'
 import preference from './preference'
 import { getExecutablePath } from '../utils'
@@ -16,7 +16,8 @@ class Gologin {
   private resolution: string
   private deviceType: 'desktop' | 'mobile'
   private browser: Browser
-  constructor(profile: ProfileState) {
+  private infoIp?: InfoIpState
+  constructor(profile: ProfileState, infoIp?: InfoIpState) {
     return (async () => {
       this.profile = profile
       this.resolution = this.profile.fingerprint.navigator.resolution
@@ -26,6 +27,7 @@ class Gologin {
         this.profile.fingerprint.navigator.resolution = this.resolution
       }
       this.profilePath = path.join(PATH_ROOT, 'user-data-dir', this.profile.id)
+      this.infoIp = infoIp
       rimraf.sync(this.profilePath)
       fs.mkdirSync(this.profilePath, { recursive: true })
       await this.createProfile()
@@ -46,6 +48,9 @@ class Gologin {
         '--disable-background-timer-throttling',
         '--disable-backgrounding-occluded-windows'
       ]
+      if (this.infoIp) {
+        args.push(`--proxy-server=${this.infoIp.address}`)
+      }
       this.browser = await puppeteer.launch({
         executablePath: getExecutablePath(),
         headless: false,
@@ -59,6 +64,18 @@ class Gologin {
       throw ex
     }
   }
+
+  private parseProxy(proxyString?: string) {
+    if (!proxyString) return null
+    const [host, port, username, password] = proxyString.split(':')
+    return {
+      host,
+      port: Number(port),
+      username,
+      password
+    }
+  }
+
   private async createProfile() {
     try {
       Logger.info(`Creating profile...`)
@@ -105,6 +122,18 @@ class Gologin {
       jsonObj.gologin.webgl_noice_enable = false
       jsonObj.gologin.webgl_noise_enable = false
       jsonObj.gologin.doNotTrack = false
+      // jsonObj.gologin.proxy = this.infoIp
+      if (this.infoIp) {
+        jsonObj.gologin.proxy = {
+          username: this.infoIp.username,
+          password: this.infoIp.password
+        }
+        jsonObj.gologin.webRtc.publicIP = this.infoIp.query
+        jsonObj.gologin.webRtc.public_ip = this.infoIp.query
+      }
+      // webRtc
+      jsonObj.gologin.webRtc.local_ip_masking = true
+      jsonObj.gologin.webRtc.fill_based_on_ip = true
       // fingerprint value
       jsonObj.gologin.audioContext.noiseValue = this.profile.value.audioContext
       jsonObj.gologin.canvasNoise = this.profile.value.canvas
