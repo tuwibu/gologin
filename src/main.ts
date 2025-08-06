@@ -13,9 +13,13 @@ import * as rimraf from 'rimraf'
   try {
     await setup()
     const profile = await fetchProfile('windows')
-    const proxyString = 'v2.proxyempire.io:5000:r_82fb16f049-country-ng-sid-gjj206dc:7f1cf5876f'
-    const infoIp = await checkProxy('http', proxyString)
-    const gologin = await new Gologin(profile, infoIp)
+    // proxy
+    // const proxyString = 'v2.proxyempire.io:5000:r_82fb16f049-country-ng-sid-gjj206dc:7f1cf5876f'
+    // const infoIp = await checkProxy('http', proxyString)
+    // const gologin = await new Gologin(profile, infoIp)
+
+    // no proxy
+    const gologin = await new Gologin(profile)
     const browser = await gologin.launch()
 
     // onClose browser
