@@ -3,7 +3,7 @@ import setup from './utils/setup'
 import Gologin from './gologin'
 import path from 'path'
 import { PATH_ROOT } from './configs'
-import { sanitizeProfile } from './utils'
+import { sanitizeProfile, sleep } from './utils'
 import logger from './helpers/logger'
 import { compress } from './utils/admZip'
 import * as rimraf from 'rimraf'
@@ -21,6 +21,14 @@ import * as rimraf from 'rimraf'
     // no proxy
     const gologin = await new Gologin(profile)
     const browser = await gologin.launch()
+
+    const page = await browser.newPage()
+    await page.goto('https://www.google.com')
+    console.log('screenshot')
+    await page.screenshot({ path: 'screenshot.png' })
+    await sleep(5000)
+    console.log('close')
+    await browser.close()
 
     // onClose browser
     browser.process().on('close', async () => {
