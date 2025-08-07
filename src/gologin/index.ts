@@ -28,8 +28,10 @@ class Gologin {
       }
       this.profilePath = path.join(PATH_ROOT, 'user-data-dir', this.profile.id)
       this.infoIp = infoIp
-      rimraf.sync(this.profilePath)
-      fs.mkdirSync(this.profilePath, { recursive: true })
+      // rimraf.sync(this.profilePath)
+      if (!fs.existsSync(this.profilePath)) {
+        fs.mkdirSync(this.profilePath, { recursive: true })
+      }
       await this.createProfile()
       return this
     })() as unknown as Gologin
